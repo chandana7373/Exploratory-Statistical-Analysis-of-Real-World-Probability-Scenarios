@@ -1,0 +1,444 @@
+---
+title: "yalavarthi_project6"
+output: html_document
+date: "2023-11-01"
+---
+
+<CENTER>
+<FONT SIZE = 4, COLOR = "BLACK">
+<P>
+<B>ALY6000 INTRODUCTION TO ANALYTICS</B>
+<BR>
+<B>HARI CHANDANA YALAVARTHI</B>
+<P>
+<B>DATE:`r format(Sys.time(), '%d %B, %Y')`</B>
+<P>
+</FONT>
+</CENTER>
+
+<FONT SIZE = 2, COLOR = "BLACK">
+<P>
+<B>INTODUCTION : This analysis is based on the assumption that the Red Sox have a consistent probability of winning each game, and we will utilize probability distributions and statistical techniques to understand the likely outcomes and characteristics of this sporting event. It has been established that the life spans of these light bulbs follow a normal distribution. This means that the distribution of life spans is symmetrical and bell-shaped, with a well-defined mean and standard deviation.</B>
+<P>
+</FONT>
+
+```{r setup, include = FALSE, meassage = FALSE, warning = FALSE, echo = FALSE}
+cat("\014") # clears console
+rm(list = ls()) # clears global environment
+try(dev.off(dev.list()["RStudioGD"]), silent = TRUE) # clears plots
+try(p_unload(p_loaded(), character.only = TRUE), silent = TRUE) #
+options(scipen = 100) # disables scientific notation for entire R session
+
+library(pacman)
+p_load(tidyverse)
+p_load(testthat)
+
+```
+
+
+```{r Q1, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+n <- 7   # Number of trials (games)
+k <- 5   # Number of successful outcomes (wins)
+p <- 0.65  # Probability of winning a single game
+
+# Calculate the binomial probability
+prob1_result <- choose(n, k) * p^k * (1 - p)^(n - k)
+
+# Print the result
+cat("The probability of winning exactly 5 games out of 7 is approximately", prob1_result, "\n")
+```
+
+```{r Q2, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Load the tidyverse library for creating tibbles (if not already loaded)
+library(tidyverse)
+
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+
+# Create a sequence of possible outcomes (0 to 7 wins)
+possible_wins <- 0:n
+
+# Calculate the probabilities for each outcome using the binomial probability formula
+probabilities <- dbinom(possible_wins, size = n, prob = p)
+
+# Create a data frame or tibble
+prob2_result <- tibble(wins = possible_wins, probability = probabilities)
+
+# Print the data frame or tibble
+print(prob2_result)
+```
+
+```{r Q3, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+
+# Calculate the probability of winning fewer than 5 games
+prob3_result <- pbinom(4, size = n, prob = p)
+
+# Print the result
+cat("The probability of winning fewer than 5 games is approximately", prob3_result, "\n")
+```
+
+```{r Q4, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+
+# Calculate the probability of winning between 3 and 5 games inclusively
+prob4_result <- pbinom(5, size = n, prob = p) - pbinom(2, size = n, prob = p)
+
+# Print the result
+cat("The probability of winning between 3 and 5 games inclusively is approximately", prob4_result, "\n")
+```
+
+
+```{r Q5, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+
+# Calculate the probability of winning more than 4 games
+prob5_result <- 1 - pbinom(4, size = n, prob = p)
+
+# Print the result
+cat("The probability of winning more than 4 games is approximately", prob5_result, "\n")
+```
+
+
+```{r Q6, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+
+# Calculate the expected value
+prob6_result <- n * p
+
+# Print the result
+cat("The theoretical expected value of the number of wins in a 7-game series is", prob6_result, "\n")
+```
+
+
+```{r Q7, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+
+# Calculate the variance
+prob7_result <- n * p * (1 - p)
+
+# Print the result
+cat("The theoretical variance of the number of wins in a 7-game series is", prob7_result, "\n")
+```
+
+
+```{r Q8, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Set the seed for reproducibility
+set.seed(10)
+
+# Define the parameters
+n <- 7   # Number of trials (games)
+p <- 0.65  # Probability of winning a single game
+num_samples <- 1000  # Number of random values to generate
+
+# Generate 1,000 random values for the number of wins
+random_wins <- rbinom(num_samples, size = n, prob = p)
+
+# Print the first few values
+head(random_wins)
+```
+
+
+```{r Q9, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the sample mean of the 1,000 random values
+prob9_result <- mean(random_wins)
+
+# Print the sample mean
+cat("The sample mean of the 1,000 random values is", prob9_result, "\n")
+```
+
+
+```{r Q10, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the sample variance of the 1,000 random values
+prob10_result <- var(random_wins)
+
+# Print the sample variance
+cat("The sample variance of the 1,000 random values is", prob10_result, "\n")
+```
+
+
+```{r Q11, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+lambda <- 7  # Average rate (calls per hour)
+k <- 6  # Number of calls
+
+# Calculate the Poisson probability
+prob11_result <- dpois(k, lambda)
+
+# Print the result
+cat("The probability of receiving exactly 6 calls in the next hour is approximately", prob11_result, "\n")
+```
+
+
+```{r Q12, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+lambda <- 7  # Average rate (calls per hour)
+k <- 40  # Number of calls
+
+# Calculate the Poisson cumulative probability
+prob12_result <- ppois(k, lambda * 8)
+
+# Print the result
+cat("The probability of receiving 40 or fewer calls in the next 8 hours is approximately", prob12_result, "\n")
+```
+
+
+```{r Q13, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+lambda_per_hour <- 7  # Average rate per employee per hour
+employees <- 5  # Number of employees
+hours_per_shift <- 8  # Hours per shift
+k <- 275  # Quota of calls
+
+# Calculate the total average rate
+total_lambda <- employees * lambda_per_hour * hours_per_shift
+
+# Calculate the Poisson cumulative probability
+prob13_result <- 1 - ppois(k - 1, total_lambda)
+
+# Print the result
+cat("The probability of meeting the quota of 275 or more calls during the shift is approximately", prob13_result, "\n")
+```
+
+
+```{r Q14, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+lambda_per_hour <- 7  # Average rate per employee per hour
+remaining_employees <- 4  # Number of employees remaining
+hours_per_shift <- 8  # Hours per shift
+k <- 275  # Quota of calls
+
+# Calculate the total average rate (with one employee sick)
+total_lambda_sick <- remaining_employees * lambda_per_hour * hours_per_shift
+
+# Calculate the Poisson cumulative probability
+prob14_result <- 1 - ppois(k - 1, total_lambda_sick)
+
+# Print the result
+cat("The probability of the remaining team, with one employee sick, meeting the quota of 275 or more calls during their shift is approximately", prob14_result, "\n")
+```
+
+
+```{r Q15, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+lambda_per_hour <- 7  # Average rate per employee per hour
+hours_per_shift <- 8  # Hours per shift
+percentile <- 0.10  # The top 10% of days
+
+# Calculate the quantile (number of calls)
+prob15_result <- qpois(1 - percentile, lambda = lambda_per_hour * hours_per_shift)
+
+# Print the result
+cat("The number of calls necessary for the day to be considered in the top 10% of days volume-wise is approximately", prob15_result, "calls\n")
+```
+
+
+```{r Q16, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Set the seed for reproducibility
+set.seed(15)
+
+# Define the parameters
+lambda_per_hour <- 7  # Average rate per employee per hour
+hours_per_shift <- 8  # Hours per shift
+num_samples <- 1000  # Number of random values to generate
+
+# Generate 1,000 random values for the number of calls
+random_calls <- rpois(num_samples, lambda_per_hour * hours_per_shift)
+
+# Print the first few values
+head(random_calls)
+```
+
+
+```{r Q17, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the sample mean of the 1,000 random values
+prob17_result <- mean(random_calls)
+
+# Print the sample mean
+cat("The sample mean of the 1,000 random values is approximately", prob17_result, "calls\n")
+```
+
+
+```{r Q18, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the sample variance of the 1,000 random values
+prob18_result <- var(random_calls)
+
+# Print the sample variance
+cat("The sample variance of the 1,000 random values is approximately", prob18_result, "calls^2\n")
+```
+
+```{r Q19, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+mean_lifespan <- 2000  # Mean life span in hours
+std_deviation <- 100   # Standard deviation in hours
+lower_limit <- 1800    # Lower limit of the interval
+upper_limit <- 2200    # Upper limit of the interval
+
+# Calculate the Z-scores
+z_lower <- (lower_limit - mean_lifespan) / std_deviation
+z_upper <- (upper_limit - mean_lifespan) / std_deviation
+
+# Calculate the probability
+prob19_result <- pnorm(z_upper) - pnorm(z_lower)
+
+# Convert to percentage
+prob19_result <- prob19_result * 100
+
+# Print the result
+cat("The percentage of light bulbs with a lifespan between 1,800 and 2,200 hours is approximately", prob19_result, "%\n")
+```
+
+
+```{r Q20, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+mean_lifespan <- 2000  # Mean life span in hours
+std_deviation <- 100   # Standard deviation in hours
+value <- 2500           # Value for which we want to find the percentage
+
+# Calculate the Z-score
+z_value <- (value - mean_lifespan) / std_deviation
+
+# Calculate the probability
+prob20_result <- 1 - pnorm(z_value)
+
+# Convert to percentage
+prob20_result <- prob20_result * 100
+
+# Print the result
+cat("The percentage of light bulbs with a lifespan of more than 2,500 hours is approximately", prob20_result, "%\n")
+```
+
+
+```{r Q21, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Define the parameters
+mean_lifespan <- 2000  # Mean life span in hours
+std_deviation <- 100   # Standard deviation in hours
+percentile <- 0.10     # The bottom 10%
+
+# Calculate the quantile (maximum number of hours)
+prob21_result <- mean_lifespan + qnorm(percentile) * std_deviation
+
+# Round the result up to the nearest integer
+prob21_result <- ceiling(prob21_result)
+
+# Print the result
+cat("The maximum number of hours for a light bulb to be considered defective is approximately", prob21_result, "hours\n")
+```
+
+```{r Q22, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Set the seed for reproducibility
+set.seed(25)
+
+# Define the parameters
+mean_lifespan <- 2000  # Mean life span in hours
+std_deviation <- 100   # Standard deviation in hours
+num_samples <- 10000  # Number of random values to generate
+
+# Generate 10,000 random values for the life spans of light bulbs
+random_lifespans <- rnorm(num_samples, mean_lifespan, std_deviation)
+
+# Print the first few values
+head(random_lifespans)
+```
+
+
+```{r Q23, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the population mean of the 10,000 random values
+prob23_result <- mean(random_lifespans)
+
+# Print the population mean
+cat("The population mean of the random life spans of light bulbs is approximately", prob23_result, "hours\n")
+```
+
+
+```{r Q24, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the population standard deviation of the 10,000 random values
+prob24_result <- sd(random_lifespans)
+
+# Print the population standard deviation
+cat("The population standard deviation of the random life spans of light bulbs is approximately", prob24_result, "hours\n")
+```
+
+
+```{r Q25, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Set the seed for reproducibility
+set.seed(1)
+
+# Define the parameters
+num_samples <- 1000  # Number of different samples
+sample_size <- 100   # Size of each sample
+
+# Initialize a vector to store the sample means
+sample_means <- numeric(num_samples)
+
+# Generate 1,000 different samples and calculate the sample means
+for (i in 1:num_samples) {
+  # Sample 100 values without replacement
+  sample_data <- sample(random_lifespans, size = sample_size, replace = FALSE)
+  # Calculate the sample mean and store it
+  sample_means[i] <- mean(sample_data)
+}
+
+# Print the first few sample means
+head(sample_means)
+```
+
+
+```{r Q26, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Create a histogram of the sample means
+hist(sample_means, breaks = 30, main = "Histogram of Sample Means", xlab = "Sample Means", ylab = "Frequency")
+```
+
+
+```{r Q27, include = TRUE, meassage = FALSE, warning = FALSE, echo = TRUE}
+# Calculate the mean of the sample means
+prob27_result <- mean(sample_means)
+
+# Print the result
+cat("The mean of the sample means is approximately", prob27_result, "\n")
+```
+
+
+
+#28
+Based on the histogram and the results of the Shapiro-Wilk normality test, you can make an informed decision regarding the likely distribution of the flipper length. If the histogram has a roughly bell-shaped curve and the p-value from the normality test is not significantly low (typically p > 0.05), it suggests that the data may follow a normal distribution.
+
+However, if the data does not seem to follow a normal distribution based on these observations, you may consider other distributions like skewed distributions or explore further statistical tests to assess the fit to specific distribution types. Its essential to consider both visual and statistical evidence in making such determinations.
+
+
+#29
+The scatterplot will help you visually assess the relationship. If the points on the scatterplot show a clear pattern, it may suggest a relationship between flipper length and beak depth. Additionally, the correlation coefficient can provide quantitative information about the strength and direction of the relationship. A positive correlation coefficient suggests a positive linear relationship, while a negative coefficient suggests a negative linear relationship.
+
+
+<FONT SIZE = 2, COLOR = "BLACK">
+<P>
+<B>Conclusion/Recommendations:The probability distribution of the number of wins in a seven-game stretch for the Boston Red Sox, with a win probability of 0.65, follows a binomial distribution.
+
+The life spans of light bulbs at this manufacturing company follow a normal distribution with a mean life span of 2,000 hours and a standard deviation of 100 hours. This conclusion is based on the provided statistical parameters and characteristics of the data distribution.</B>
+<P>
+REFERENCES: Evans, M. J., & Rosenthal, J. S. (2010). Probability and statistics: The Science of Uncertainty. WH Freeman.
+
+Grolemund, G. (2014). Hands-On Programming with R: Write Your Own Functions and Simulations. “O’Reilly Media, Inc.”
+
+</FONT>
+
+</FONT>
+
+
+
+
+
+
+
